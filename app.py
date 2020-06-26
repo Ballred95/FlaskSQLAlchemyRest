@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 import os
 
+#
+
 #init app
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -17,7 +19,7 @@ db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
 #Class/Model
-class Product(db.model):
+class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique = True)
     description = db.Column(db.String(200))
@@ -37,8 +39,12 @@ class ProductSchema(ma.Schema):
         fields = ('id' 'name' 'description', 'price', 'qty')
 
 #init Schema
-product_schema = ProductSchema(strict=True)
-products_schema = ProductSchema(many=True, strict=True)
+product_schema = ProductSchema()
+products_schema = ProductSchema(many=True)
+
+#Create a Product
+@app.route('/product', methods = ['POST'])
+def add_product():
 
 #run server
 if __name__ == '__main__':
