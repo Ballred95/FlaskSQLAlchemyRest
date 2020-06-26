@@ -24,6 +24,14 @@ class Product(db.model):
     price = db.Column(db.Float)
     qty = db.Column(db.Integer)
 
+    #constructor
+    def __init__(self, name, desription, price, qty):
+        self.name = name
+        self.description = description
+        self.price = price
+        self.qty = qty
+
+
 #run server
 if __name__ == '__main__':
     app.run(debug=True)
