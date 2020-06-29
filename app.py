@@ -1,4 +1,4 @@
-from flask import Flask, Request, jsonify
+from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 import os
@@ -27,7 +27,7 @@ class Product(db.Model):
     qty = db.Column(db.Integer)
 
     #constructor
-    def __init__(self, name, desription, price, qty):
+    def __init__(self, name, description, price, qty):
         self.name = name
         self.description = description
         self.price = price
@@ -56,6 +56,13 @@ def add_product():
     db.session.commit()
 
     return product_schema.jsonify(new_product)
+
+    # GET ALL PRODUCTS
+    @app.route('/product', methods = [GET])
+    def get_products():
+        all_products = Product.query.all()
+        result = products_schema.dump(all_products)
+        return jsonify(result.data)
 
 #run server
 if __name__ == '__main__':
