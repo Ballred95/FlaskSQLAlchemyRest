@@ -90,6 +90,16 @@ def get_products():
     result = products_schema.dump(all_products)
     return jsonify(result)
 
+#delete product
+
+@app.route('/product/<id>', methods=['DELETE'])
+def delete_product(id):
+    product = Product.query.get(id)
+    db.session.delete(product)
+    db.session.commit()
+
+    return product_schema.jsonify(product)
+
 #run server
 if __name__ == '__main__':
     app.run(debug=True)
